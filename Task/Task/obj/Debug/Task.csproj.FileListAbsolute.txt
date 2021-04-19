@@ -18,3 +18,13 @@ D:\Downloads\03. LINQ\03. LINQ\Task\Task\obj\Debug\Task.csproj.GenerateResource.
 D:\Downloads\03. LINQ\03. LINQ\Task\Task\obj\Debug\Task.csproj.CoreCompileInputs.cache
 D:\Downloads\03. LINQ\03. LINQ\Task\Task\obj\Debug\Task.exe
 D:\Downloads\03. LINQ\03. LINQ\Task\Task\obj\Debug\Task.pdb
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\bin\Debug\Task.exe.config
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\bin\Debug\Task.exe
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\bin\Debug\Task.pdb
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\obj\Debug\Task.csprojAssemblyReference.cache
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\obj\Debug\Task.Properties.Resources.resources
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\obj\Debug\SampleSupport.SampleForm.resources
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\obj\Debug\Task.csproj.GenerateResource.cache
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\obj\Debug\Task.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\obj\Debug\Task.exe
+C:\Users\User\Documents\GitHub\LinqTask\Task\Task\obj\Debug\Task.pdb

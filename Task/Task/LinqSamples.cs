@@ -48,14 +48,14 @@ namespace SampleQueries
 			var result = dataSource.Customers.Select(x => new
 			{
 				Customer = x,
-				Suppliers = dataSource.Suppliers.Where(y => y.Country == x.Country).ToList()
+				Suppliers = dataSource.Suppliers.Where(y => y.Country == x.Country && y.City == x.City).ToList()
 			}).ToList();
 
 			foreach (var client in result)
 			{
 				ObjectDumper.Write($"Client: {client.Customer.CompanyName}\n");
-                foreach (var supplier in client.Suppliers)
-                {
+				foreach (var supplier in client.Suppliers)
+				{
 					ObjectDumper.Write($"Supplier: {supplier.SupplierName}\n");
 				}
 			}
@@ -67,7 +67,7 @@ namespace SampleQueries
 		public void Linq3()
 		{
 			var condition = 1;
-			var result = dataSource.Customers.Where(x => x.Orders.Any(y => y.Total>condition)).ToList();
+			var result = dataSource.Customers.Where(x => x.Orders.Any(y => y.Total > condition)).ToList();
 
 			foreach (var client in result)
 			{
@@ -80,15 +80,16 @@ namespace SampleQueries
 		[Description("List of client with their first order date.")]
 		public void Linq4()
 		{
-			var result = dataSource.Customers.Select(x => new
+			var result = dataSource.Customers.Where(x => x.Orders.Length > 0).Select(x => new
 			{
 				Customer = x,
-				StartOfCooperation = x.Orders.Select(y => y.OrderDate).Min(z=> (DateTime?)z.Date)
+				StartOfCooperationYear = x.Orders.Select(y => y.OrderDate).Min().Year,
+				StartOfCooperationMonth = x.Orders.Select(y => y.OrderDate).Min().Month
 			}).ToList();
 
 			foreach (var client in result)
 			{
-				ObjectDumper.Write($"Client: {client.Customer.CompanyName} FirstOrder: {client.StartOfCooperation}\n");
+				ObjectDumper.Write($"Client: {client.Customer.CompanyName} FirstOrderYear: {client.StartOfCooperationYear} FirstOrderMonth: {client.StartOfCooperationMonth}\n");
 			}
 		}
 
@@ -98,21 +99,22 @@ namespace SampleQueries
 		public void Linq5()
 		{
 			var result = dataSource.Customers
-				.Where(x=>x.Orders.Length>0)
+				.Where(x => x.Orders.Length > 0)
 				.Select(x => new
-			{
-				Customer = x,
-				StartOfCooperation = x.Orders.Select(y => y.OrderDate).Min(),
-				TotalRevenue = x.Orders.Sum(z => z.Total)
-			}
-			).OrderBy(x => x.StartOfCooperation.Year)
-			.ThenBy(x => x.StartOfCooperation.Month)
+				{
+					Customer = x,
+					StartOfCooperationYear = x.Orders.Select(y => y.OrderDate).Min().Year,
+					StartOfCooperationMonth = x.Orders.Select(y => y.OrderDate).Min().Month,
+					TotalRevenue = x.Orders.Sum(z => z.Total)
+				}
+			).OrderBy(x => x.StartOfCooperationYear)
+			.ThenBy(x => x.StartOfCooperationMonth)
 			.ThenByDescending(x => x.TotalRevenue)
 			.ThenBy(x => x.Customer.CompanyName).ToList();
 
 			foreach (var client in result)
 			{
-				ObjectDumper.Write($"Client: {client.Customer.CompanyName} FirstOrder: {client.StartOfCooperation}\n");
+				ObjectDumper.Write($"Client: {client.Customer.CompanyName} FirstOrderYear: {client.StartOfCooperationYear} FirstOrderMonth: {client.StartOfCooperationMonth}\n");
 			}
 		}
 
@@ -121,11 +123,11 @@ namespace SampleQueries
 		[Description("List of client with not digital post code.")]
 		public void Linq6()
 		{
-			var result = dataSource.Customers.Where(x => x.PostalCode!=null).Where(x => !(x.Phone.StartsWith("(")) || x.Region == null || x.PostalCode.Any(y => y<'0' || y > '9'));
+			var result = dataSource.Customers.Where(x => string.IsNullOrEmpty(x.PostalCode) || !(x.Phone.StartsWith("(")) || string.IsNullOrEmpty(x.Region) || x.PostalCode.Any(y => y < '0' || y > '9') );
 
 			foreach (var client in result)
 			{
-				ObjectDumper.Write($"Client: {client.CompanyName} PostCode: {client.PostalCode}\n");
+				ObjectDumper.Write($"Client: {client.CompanyName} PostCode: {client.PostalCode} Phone: {client.Phone} Region: {client.Region}\n");
 			}
 		}
 
